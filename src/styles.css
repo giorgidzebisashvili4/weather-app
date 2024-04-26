@@ -1,0 +1,59 @@
+/* styles.css */
+body {
+  margin: 0;
+}
+
+section {
+  width: 100%;
+  height: 80vh;
+  background-image: url("./assets/img/earth.jpg"); /* Path to your Earth image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding-top: 20vh;
+}
+
+.weather-app {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  padding: 20px;
+  width: 50%;
+  margin: 0 auto;
+  border-radius: 15px;
+  background: linear-gradient(rgb(0, 41, 164), rgb(0, 0, 95));
+}
+
+.weather-app h2,
+.weather-app p {
+  color: #ffffff;
+}
+
+.weather-app h1 {
+  color: #ffffff;
+  font-size: 24px;
+}
+
+.weather-app input {
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.weather-app button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.weather-app button:hover {
+  background-color: #0056b3;
+}
+
+.weather-app .loading {
+  color: #007bff;
+}
+
+.weather-app .error {
+  color: red;
+}
