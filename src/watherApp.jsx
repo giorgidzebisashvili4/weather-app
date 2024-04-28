@@ -79,18 +79,23 @@ const WeatherApp = () => {
 
     return forecastData.map((day) => (
       <div key={day.date} className="forecast-item">
-        <div className="day">
-          {new Date(day.date).toLocaleDateString("en-US", { weekday: "long" })}
-        </div>
-        <div className="date">
-          {new Date(day.date).toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-          })}
+        <div className="weekday-date">
+          <div className="day">
+            {new Date(day.date).toLocaleDateString("en-US", {
+              weekday: "long",
+            })}
+          </div>
+          <div className="date">
+            {new Date(day.date).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+            })}
+          </div>
         </div>
         <div className="weather-icon">
           <WeatherIcon conditionCode={day.day.condition.code} />
         </div>
+        <div className="condition">{day.day.condition.text}</div>
         <div className="temperature">
           {day.day.maxtemp_c}°C / {day.day.mintemp_c}°C
         </div>
@@ -101,38 +106,52 @@ const WeatherApp = () => {
   return (
     <section>
       <div className="weather-app">
-        <h1>Weather App</h1>
-        <input
-          type="text"
-          placeholder="Enter city name"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-        />
-        <button onClick={fetchWeatherData} disabled={loading}>
-          Get Weather
-        </button>
-        {loading && <p className="loading">Loading...</p>}
-        {error && <p className="error">Error: {error}</p>}
-        <div className="current-weather">
-          {weatherData && (
-            <>
-              <div className="location">
-                {weatherData.location.name}, {weatherData.location.country}
-              </div>
-              <div className="temperature">{weatherData.current.temp_c}°C</div>
-              <div className="condition">
-                {weatherData.current.condition.text}
-              </div>
-              <div className="weather-icon">
-                <WeatherIcon
-                  conditionCode={weatherData.current.condition.code}
-                />
-              </div>
-            </>
-          )}
+        <div className="header">
+          <a href="https://weatherapp-gdz.netlify.app/">
+            <h1>Weather App</h1>
+          </a>
+          <input
+            type="text"
+            placeholder="Enter city name"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+          />
+          <button onClick={fetchWeatherData} disabled={loading}>
+            Get Weather
+          </button>
+          {loading && <p className="loading">Loading...</p>}
+          {error && <p className="error">Error: {error}</p>}
         </div>
-        <h2>3-Day Forecast</h2>
-        <div className="forecast">{renderForecast()}</div>
+        <div className="forecast-info">
+          <div className="current-weather">
+            {weatherData && (
+              <>
+                <div className="location">
+                  {weatherData.location.name}, {weatherData.location.country}
+                </div>
+                <div className="today-temp-weather">
+                  <div className="temperature">
+                    {weatherData.current.temp_c}°C
+                  </div>
+                  <div className="condition-icon">
+                    <div className="condition">
+                      {weatherData.current.condition.text}
+                    </div>
+                    <div className="weather-icon">
+                      <WeatherIcon
+                        conditionCode={weatherData.current.condition.code}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+          <div className="3-day-forecast">
+            <h2>3-Day Forecast</h2>
+            <div className="forecast">{renderForecast()}</div>
+          </div>
+        </div>
       </div>
     </section>
   );

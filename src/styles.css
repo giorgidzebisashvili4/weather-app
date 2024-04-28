@@ -17,9 +17,13 @@ section {
   font-family: Arial, sans-serif;
   padding: 20px;
   margin: 0 auto;
-  width: 50%;
+  width: fit-content;
   border-radius: 15px;
   background: linear-gradient(rgb(0, 41, 164), rgb(0, 0, 95));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 60px 50px 60px;
 }
 
 .weather-app h2,
@@ -37,12 +41,19 @@ section {
   margin-bottom: 10px;
   border-radius: 15px;
   height: 20px;
+  background-color: transparent;
+  color: white;
+  font-weight: 700;
+  font-size: 20px;
+  border: 2px solid #007bff;
+  padding-left: 10px;
 }
 
 .weather-app button {
   background-color: #007bff;
   color: #fff;
-  padding: 8px 16px;
+  font-size: 18px;
+  padding: 6px 16px;
   border: none;
   cursor: pointer;
   border-radius: 15px;
@@ -59,4 +70,68 @@ section {
 
 .header nav ul .error {
   color: red;
+}
+
+.weather-app a {
+  text-decoration: none;
+}
+.header {
+  padding-bottom: 20px;
+  text-align: center;
+}
+.header h1 {
+  font-size: 40px;
+}
+
+.forecast-info {
+  display: flex;
+  color: white;
+  gap: 30px;
+  flex-direction: column;
+  align-items: center;
+}
+.current-weather .location {
+  font-size: 30px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+.current-weather .temperature {
+  font-size: 70px;
+  margin-right: 10px;
+}
+.today-temp-weather {
+  display: flex;
+}
+.condition {
+  font-size: 30px;
+}
+.condition-icon .weather-icon svg {
+  height: 2em;
+  width: 2em;
+}
+.forecast {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.weekday-date {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+.forecast-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.forecast-item .weather-icon svg {
+  height: 3em;
+  width: 3em;
+  margin-bottom: 10px;
+}
+.forecast-item .condition {
+  margin-bottom: 10px;
 }
