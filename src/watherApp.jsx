@@ -5,30 +5,42 @@ import {
   FaSun,
   FaCloud,
   FaCloudRain,
-  FaCloudShowersHeavy,
   FaSnowflake,
   FaBolt,
 } from "react-icons/fa";
 
 const WeatherApp = () => {
-  const [city, setCity] = useState("Tbilisi");
+  const [city, setCity] = useState("Tbilisi"); // Set "Tbilisi" as the default city
   const [weatherData, setWeatherData] = useState(null);
+  const [forecastData, setForecastData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const API_KEY = "ceca4e6fb85347b8ad0120837241501"; // Replace this with your actual API key
-  const API_URL = "https://api.weatherapi.com/v1/current.json";
+  const CURRENT_WEATHER_API_URL = "https://api.weatherapi.com/v1/current.json";
+  const FORECAST_API_URL = "https://api.weatherapi.com/v1/forecast.json";
 
-  const fetchWeatherData = async (cityName) => {
+  const fetchWeatherData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(API_URL, {
-        params: {
-          key: API_KEY,
-          q: cityName,
-        },
-      });
-      setWeatherData(response.data);
+      const [currentResponse, forecastResponse] = await Promise.all([
+        axios.get(CURRENT_WEATHER_API_URL, {
+          params: {
+            key: API_KEY,
+            q: city,
+          },
+        }),
+        axios.get(FORECAST_API_URL, {
+          params: {
+            key: API_KEY,
+            q: city,
+            days: 3, // Fetch forecast for 3 days
+          },
+        }),
+      ]);
+
+      setWeatherData(currentResponse.data);
+      setForecastData(forecastResponse.data.forecast.forecastday);
       setError(null);
     } catch (error) {
       setError(error.message);
@@ -38,16 +50,8 @@ const WeatherApp = () => {
   };
 
   useEffect(() => {
-    fetchWeatherData(city);
-  }, [city]); // Fetch weather data when city changes
-
-  const handleInputChange = (e) => {
-    setCity(e.target.value);
-  };
-
-  const handleButtonClick = () => {
-    fetchWeatherData(city);
-  };
+    fetchWeatherData(); // Fetch weather data when component mounts
+  }, []); // Only fetch once when the component mounts
 
   const WeatherIcon = ({ conditionCode }) => {
     switch (conditionCode) {
@@ -68,6 +72,32 @@ const WeatherApp = () => {
     }
   };
 
+  const renderForecast = () => {
+    if (!forecastData.length) {
+      return null;
+    }
+
+    return forecastData.map((day) => (
+      <div key={day.date} className="forecast-item">
+        <div className="day">
+          {new Date(day.date).toLocaleDateString("en-US", { weekday: "long" })}
+        </div>
+        <div className="date">
+          {new Date(day.date).toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+          })}
+        </div>
+        <div className="weather-icon">
+          <WeatherIcon conditionCode={day.day.condition.code} />
+        </div>
+        <div className="temperature">
+          {day.day.maxtemp_c}°C / {day.day.mintemp_c}°C
+        </div>
+      </div>
+    ));
+  };
+
   return (
     <section>
       <div className="weather-app">
@@ -76,27 +106,33 @@ const WeatherApp = () => {
           type="text"
           placeholder="Enter city name"
           value={city}
-          onChange={handleInputChange}
+          onChange={(e) => setCity(e.target.value)}
         />
-        <button onClick={handleButtonClick} disabled={loading}>
+        <button onClick={fetchWeatherData} disabled={loading}>
           Get Weather
         </button>
         {loading && <p className="loading">Loading...</p>}
         {error && <p className="error">Error: {error}</p>}
-        {weatherData && (
-          <div>
-            <h2>
-              {weatherData.location.name}
-              <div className="icons">
+        <div className="current-weather">
+          {weatherData && (
+            <>
+              <div className="location">
+                {weatherData.location.name}, {weatherData.location.country}
+              </div>
+              <div className="temperature">{weatherData.current.temp_c}°C</div>
+              <div className="condition">
+                {weatherData.current.condition.text}
+              </div>
+              <div className="weather-icon">
                 <WeatherIcon
                   conditionCode={weatherData.current.condition.code}
                 />
               </div>
-            </h2>
-            <p>Temperature: {weatherData.current.temp_c}°C</p>
-            <p>Condition: {weatherData.current.condition.text}</p>
-          </div>
-        )}
+            </>
+          )}
+        </div>
+        <h2>3-Day Forecast</h2>
+        <div className="forecast">{renderForecast()}</div>
       </div>
     </section>
   );

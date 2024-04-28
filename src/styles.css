@@ -15,10 +15,9 @@ section {
 
 .weather-app {
   font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
   padding: 20px;
-  width: 50%;
   margin: 0 auto;
+  width: 50%;
   border-radius: 15px;
   background: linear-gradient(rgb(0, 41, 164), rgb(0, 0, 95));
 }
@@ -36,6 +35,8 @@ section {
 .weather-app input {
   padding: 5px;
   margin-bottom: 10px;
+  border-radius: 15px;
+  height: 20px;
 }
 
 .weather-app button {
@@ -44,6 +45,8 @@ section {
   padding: 8px 16px;
   border: none;
   cursor: pointer;
+  border-radius: 15px;
+  margin-left: 10px;
 }
 
 .weather-app button:hover {
@@ -54,6 +57,6 @@ section {
   color: #007bff;
 }
 
-.weather-app .error {
+.header nav ul .error {
   color: red;
 }
