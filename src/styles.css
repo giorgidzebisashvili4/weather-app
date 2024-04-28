@@ -126,6 +126,11 @@ section {
   flex-direction: column;
   align-items: center;
 }
+.forecast-item:first-child,
+.forecast-item:nth-last-child(2) {
+  border-right: 2px solid white;
+  padding-right: 20px;
+}
 
 .forecast-item .weather-icon svg {
   height: 3em;
@@ -143,5 +148,22 @@ section {
   section {
     padding-top: 5vh;
     height: 100vh;
+  }
+}
+
+@media (max-width: 600px) {
+  .forecast-item:nth-last-child(2) {
+    border-right: none;
+    padding-right: 0px;
+  }
+}
+
+@media (max-width: 398px) {
+  .forecast-item:first-child {
+    border-right: none;
+    padding-right: 0px;
+  }
+  .forecast-item {
+    padding: 30px;
   }
 }
